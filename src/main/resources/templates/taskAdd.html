@@ -21,14 +21,16 @@
 
       <div class="card">
         <div class="card-body">
-          <form action="#">
+          <form action="/taskPost" th:object="${task}" method="post">
             <div class="form-group">
               <label for="title">タイトル</label>
-              <input class="form-control" type="text" id="title" name="title" />
+              <input class="form-control" type="text" th:field="*{task}" />
+              <div class="text-danger" th:if="${#fields.hasErrors('task')}" th:errors="*{task}"></div>
             </div>
             <div class="form-group">
               <label for="limit">期限</label>
-              <input class="form-control" type="date" id="limit" name="limit" />
+              <input class="form-control" type="date" th:field="*{due}" />
+              <div class="text-danger" th:if="${#fields.hasErrors('due')}" th:errors="*{due}"></div>
             </div>
             <div class="d-flex justify-content-between align-items-center">
               <a href="/" class="btn btn-outline-primary">戻る</a>

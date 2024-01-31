@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>ToDo</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" />
+	<link rel="stylesheet" th:href="@{/app.css}" type="text/css">
+</head>
+
+<body>
+	<header class="mb-5">
+		<nav class="navbar navbar-light bg-light">
+			<a href="/" class="navbar-brand">ToDo</a>
+		</nav>
+	</header>
+	<main>
+		<div class="todo-container">
+
+			<h1 class="h3 mb-4">タスク一覧</h1>
+
+			<table class="table table-bordered mb-3">
+				<thead>
+					<tr>
+						<th>状態</th>
+						<th>タスク</th>
+						<th>期限</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="task:${tasks}" th:object="${task}">
+						<td class="text-center">
+							<span th:class="'badge badge-pill '  + (*{status} ?  'badge-success' : 'badge-light')"
+								th:text="*{status} ?  '完了' : '未完了'"></span>
+						</td>
+						<td th:text="*{task}"></td>
+						<td class="text-center" th:text="*{#temporals.format(due, 'yyyy/MM/dd')}"></td>
+						<td class="text-center">
+							<th:block th:if="*{status}">
+								-
+							</th:block>
+							<th:block th:if="*{!status}">
+								<form action="/taskUpdate" method="post">
+									<input type="hidden" name="id" th:value="*{id}">
+									<input type="hidden" name="status" value="True">
+									<input type="hidden" name="page" value="taskIndex">
+									<button class="btn btn-sm btn-primary" type="submit">OK</button>
+								</form>
+							</th:block>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+			<div class="d-flex justify-content-between align-items-center">
+				<a th:href="@{/taskAdd}" class="btn btn-outline-primary">タスクを追加する</a>
+				<a th:href="@{/taskEdit}" class="btn btn-outline-primary">タスクを編集する</a>
+			</div>
+
+
+
+		</div>
+	</main>
+</body>
+
+</html>
